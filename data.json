@@ -1,0 +1,518 @@
+[
+  {
+    "event": {
+      "event_id": "RG-20260929-161048",
+      "trip_id": "TRIP-001",
+      "timestamp": "2026-09-29T16:10:48",
+      "segment_id": "SIM-TRACK-01",
+      "location": {
+        "latitude": 17.0,
+        "longitude": 78.0,
+        "source": "simulated"
+      },
+      "defect_type": "visible_crack_like_mark",
+      "detection_score": 0.7,
+      "bounding_box": {
+        "x": 253,
+        "y": 182,
+        "w": 29,
+        "h": 17
+      },
+      "detection_method": "opencv_controlled_detector",
+      "image": "demo_events/RG-20260929-161048.jpg",
+      "status": "pending_human_review"
+    },
+    "images": {
+      "original": "images/RG-20260929-161048.jpg",
+      "annotated": "images/RG-20260929-161048_annotated.jpg"
+    },
+    "location_note": "Simulated location",
+    "memory_used": true,
+    "recalled_memories": [
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status.",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.91. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.91 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-000 at segment SIM-TRACK-01 has a possible crack-like mark with a detector score of 0.74 and an inconclusive review status as of 2026-09-29."
+    ],
+    "assessment": "recurring_or_unverified",
+    "explanation": "Similar findings exist in memory for SIM-TRACK-01. Current detector score is 0.7. Scores alone do not show growth or severity. Compare original images and request human verification.",
+    "suggested_action": "Compare images and request human verification",
+    "review_status": "pending_human_review",
+    "generated_at": "2026-09-29T17:16:23"
+  },
+  {
+    "event": {
+      "event_id": "RG-20260929-161045",
+      "trip_id": "TRIP-001",
+      "timestamp": "2026-09-29T16:10:45",
+      "segment_id": "SIM-TRACK-01",
+      "location": {
+        "latitude": 17.0,
+        "longitude": 78.0,
+        "source": "simulated"
+      },
+      "defect_type": "visible_crack_like_mark",
+      "detection_score": 0.69,
+      "bounding_box": {
+        "x": 235,
+        "y": 176,
+        "w": 33,
+        "h": 19
+      },
+      "detection_method": "opencv_controlled_detector",
+      "image": "demo_events/RG-20260929-161045.jpg",
+      "status": "pending_human_review"
+    },
+    "images": {
+      "original": "images/RG-20260929-161045.jpg",
+      "annotated": "images/RG-20260929-161045_annotated.jpg"
+    },
+    "location_note": "Simulated location",
+    "memory_used": true,
+    "recalled_memories": [
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status.",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.91 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.91. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-000 at segment SIM-TRACK-01 has a possible crack-like mark with a detector score of 0.74 and an inconclusive review status as of 2026-09-29."
+    ],
+    "assessment": "recurring_or_unverified",
+    "explanation": "Similar findings exist in memory for SIM-TRACK-01. Current detector score is 0.69. Scores alone do not show growth or severity. Compare original images and request human verification.",
+    "suggested_action": "Compare images and request human verification",
+    "review_status": "pending_human_review",
+    "generated_at": "2026-09-29T17:16:22"
+  },
+  {
+    "event": {
+      "event_id": "RG-20260929-161042",
+      "trip_id": "TRIP-001",
+      "timestamp": "2026-09-29T16:10:42",
+      "segment_id": "SIM-TRACK-01",
+      "location": {
+        "latitude": 17.0,
+        "longitude": 78.0,
+        "source": "simulated"
+      },
+      "defect_type": "visible_crack_like_mark",
+      "detection_score": 0.68,
+      "bounding_box": {
+        "x": 246,
+        "y": 181,
+        "w": 29,
+        "h": 17
+      },
+      "detection_method": "opencv_controlled_detector",
+      "image": "demo_events/RG-20260929-161042.jpg",
+      "status": "pending_human_review"
+    },
+    "images": {
+      "original": "images/RG-20260929-161042.jpg",
+      "annotated": "images/RG-20260929-161042_annotated.jpg"
+    },
+    "location_note": "Simulated location",
+    "memory_used": true,
+    "recalled_memories": [
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status.",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.91 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.91. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-000 at segment SIM-TRACK-01 has a possible crack-like mark with a detector score of 0.74 and an inconclusive review status as of 2026-09-29."
+    ],
+    "assessment": "recurring_or_unverified",
+    "explanation": "Similar findings exist in memory for SIM-TRACK-01. Current detector score is 0.68. Scores alone do not show growth or severity. Compare original images and request human verification.",
+    "suggested_action": "Compare images and request human verification",
+    "review_status": "pending_human_review",
+    "generated_at": "2026-09-29T17:16:20"
+  },
+  {
+    "event": {
+      "event_id": "RG-20260929-161039",
+      "trip_id": "TRIP-001",
+      "timestamp": "2026-09-29T16:10:39",
+      "segment_id": "SIM-TRACK-01",
+      "location": {
+        "latitude": 17.0,
+        "longitude": 78.0,
+        "source": "simulated"
+      },
+      "defect_type": "visible_crack_like_mark",
+      "detection_score": 0.65,
+      "bounding_box": {
+        "x": 243,
+        "y": 193,
+        "w": 31,
+        "h": 17
+      },
+      "detection_method": "opencv_controlled_detector",
+      "image": "demo_events/RG-20260929-161039.jpg",
+      "status": "pending_human_review"
+    },
+    "images": {
+      "original": "images/RG-20260929-161039.jpg",
+      "annotated": "images/RG-20260929-161039_annotated.jpg"
+    },
+    "location_note": "Simulated location",
+    "memory_used": true,
+    "recalled_memories": [
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status.",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.91 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.91. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-000 at segment SIM-TRACK-01 has a possible crack-like mark with a detector score of 0.74 and an inconclusive review status as of 2026-09-29."
+    ],
+    "assessment": "recurring_or_unverified",
+    "explanation": "Similar findings exist in memory for SIM-TRACK-01. Current detector score is 0.65. Scores alone do not show growth or severity. Compare original images and request human verification.",
+    "suggested_action": "Compare images and request human verification",
+    "review_status": "pending_human_review",
+    "generated_at": "2026-09-29T17:16:20"
+  },
+  {
+    "event": {
+      "event_id": "RG-20260929-161036",
+      "trip_id": "TRIP-001",
+      "timestamp": "2026-09-29T16:10:36",
+      "segment_id": "SIM-TRACK-01",
+      "location": {
+        "latitude": 17.0,
+        "longitude": 78.0,
+        "source": "simulated"
+      },
+      "defect_type": "visible_crack_like_mark",
+      "detection_score": 0.68,
+      "bounding_box": {
+        "x": 226,
+        "y": 196,
+        "w": 33,
+        "h": 18
+      },
+      "detection_method": "opencv_controlled_detector",
+      "image": "demo_events/RG-20260929-161036.jpg",
+      "status": "pending_human_review"
+    },
+    "images": {
+      "original": "images/RG-20260929-161036.jpg",
+      "annotated": "images/RG-20260929-161036_annotated.jpg"
+    },
+    "location_note": "Simulated location",
+    "memory_used": true,
+    "recalled_memories": [
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status.",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.91. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.91 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-000 at segment SIM-TRACK-01 has a possible crack-like mark with a detector score of 0.74 and an inconclusive review status as of 2026-09-29."
+    ],
+    "assessment": "recurring_or_unverified",
+    "explanation": "Similar findings exist in memory for SIM-TRACK-01. Current detector score is 0.68. Scores alone do not show growth or severity. Compare original images and request human verification.",
+    "suggested_action": "Compare images and request human verification",
+    "review_status": "pending_human_review",
+    "generated_at": "2026-09-29T17:16:19"
+  },
+  {
+    "event": {
+      "event_id": "RG-20260929-161032",
+      "trip_id": "TRIP-001",
+      "timestamp": "2026-09-29T16:10:32",
+      "segment_id": "SIM-TRACK-01",
+      "location": {
+        "latitude": 17.0,
+        "longitude": 78.0,
+        "source": "simulated"
+      },
+      "defect_type": "visible_crack_like_mark",
+      "detection_score": 0.66,
+      "bounding_box": {
+        "x": 204,
+        "y": 211,
+        "w": 31,
+        "h": 16
+      },
+      "detection_method": "opencv_controlled_detector",
+      "image": "demo_events/RG-20260929-161032.jpg",
+      "status": "pending_human_review"
+    },
+    "images": {
+      "original": "images/RG-20260929-161032.jpg",
+      "annotated": "images/RG-20260929-161032_annotated.jpg"
+    },
+    "location_note": "Simulated location",
+    "memory_used": true,
+    "recalled_memories": [
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status.",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.91 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.91. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-000 at segment SIM-TRACK-01 has a possible crack-like mark with a detector score of 0.74 and an inconclusive review status as of 2026-09-29."
+    ],
+    "assessment": "recurring_or_unverified",
+    "explanation": "Similar findings exist in memory for SIM-TRACK-01. Current detector score is 0.66. Scores alone do not show growth or severity. Compare original images and request human verification.",
+    "suggested_action": "Compare images and request human verification",
+    "review_status": "pending_human_review",
+    "generated_at": "2026-09-29T17:16:17"
+  },
+  {
+    "event": {
+      "event_id": "RG-20260929-161029",
+      "trip_id": "TRIP-001",
+      "timestamp": "2026-09-29T16:10:29",
+      "segment_id": "SIM-TRACK-01",
+      "location": {
+        "latitude": 17.0,
+        "longitude": 78.0,
+        "source": "simulated"
+      },
+      "defect_type": "visible_crack_like_mark",
+      "detection_score": 0.64,
+      "bounding_box": {
+        "x": 205,
+        "y": 222,
+        "w": 31,
+        "h": 17
+      },
+      "detection_method": "opencv_controlled_detector",
+      "image": "demo_events/RG-20260929-161029.jpg",
+      "status": "pending_human_review"
+    },
+    "images": {
+      "original": "images/RG-20260929-161029.jpg",
+      "annotated": "images/RG-20260929-161029_annotated.jpg"
+    },
+    "location_note": "Simulated location",
+    "memory_used": true,
+    "recalled_memories": [
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status.",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.91 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.91. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-000 at segment SIM-TRACK-01 has a possible crack-like mark with a detector score of 0.74 and an inconclusive review status as of 2026-09-29."
+    ],
+    "assessment": "recurring_or_unverified",
+    "explanation": "Similar findings exist in memory for SIM-TRACK-01. Current detector score is 0.64. Scores alone do not show growth or severity. Compare original images and request human verification.",
+    "suggested_action": "Compare images and request human verification",
+    "review_status": "pending_human_review",
+    "generated_at": "2026-09-29T17:16:16"
+  },
+  {
+    "event": {
+      "event_id": "RG-20260929-161019",
+      "trip_id": "TRIP-001",
+      "timestamp": "2026-09-29T16:10:19",
+      "segment_id": "SIM-TRACK-01",
+      "location": {
+        "latitude": 17.0,
+        "longitude": 78.0,
+        "source": "simulated"
+      },
+      "defect_type": "visible_crack_like_mark",
+      "detection_score": 0.8,
+      "bounding_box": {
+        "x": 170,
+        "y": 158,
+        "w": 36,
+        "h": 18
+      },
+      "detection_method": "opencv_controlled_detector",
+      "image": "demo_events/RG-20260929-161019.jpg",
+      "status": "pending_human_review"
+    },
+    "images": {
+      "original": "images/RG-20260929-161019.jpg",
+      "annotated": "images/RG-20260929-161019_annotated.jpg"
+    },
+    "location_note": "Simulated location",
+    "memory_used": true,
+    "recalled_memories": [
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status.",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.91 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.91. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-000 at segment SIM-TRACK-01 has a possible crack-like mark with a detector score of 0.74 and an inconclusive review status as of 2026-09-29."
+    ],
+    "assessment": "recurring_or_unverified",
+    "explanation": "Similar findings exist in memory for SIM-TRACK-01. Current detector score is 0.8. Scores alone do not show growth or severity. Compare original images and request human verification.",
+    "suggested_action": "Compare images and request human verification",
+    "review_status": "pending_human_review",
+    "generated_at": "2026-09-29T17:16:15"
+  },
+  {
+    "event": {
+      "event_id": "RG-20260929-161016",
+      "trip_id": "TRIP-001",
+      "timestamp": "2026-09-29T16:10:16",
+      "segment_id": "SIM-TRACK-01",
+      "location": {
+        "latitude": 17.0,
+        "longitude": 78.0,
+        "source": "simulated"
+      },
+      "defect_type": "visible_crack_like_mark",
+      "detection_score": 0.77,
+      "bounding_box": {
+        "x": 175,
+        "y": 167,
+        "w": 37,
+        "h": 19
+      },
+      "detection_method": "opencv_controlled_detector",
+      "image": "demo_events/RG-20260929-161016.jpg",
+      "status": "pending_human_review"
+    },
+    "images": {
+      "original": "images/RG-20260929-161016.jpg",
+      "annotated": "images/RG-20260929-161016_annotated.jpg"
+    },
+    "location_note": "Simulated location",
+    "memory_used": true,
+    "recalled_memories": [
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status.",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.91 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.91. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-000 at segment SIM-TRACK-01 has a possible crack-like mark with a detector score of 0.74 and an inconclusive review status as of 2026-09-29."
+    ],
+    "assessment": "recurring_or_unverified",
+    "explanation": "Similar findings exist in memory for SIM-TRACK-01. Current detector score is 0.77. Scores alone do not show growth or severity. Compare original images and request human verification.",
+    "suggested_action": "Compare images and request human verification",
+    "review_status": "pending_human_review",
+    "generated_at": "2026-09-29T17:16:13"
+  },
+  {
+    "event": {
+      "event_id": "RG-20260929-161013",
+      "trip_id": "TRIP-001",
+      "timestamp": "2026-09-29T16:10:13",
+      "segment_id": "SIM-TRACK-01",
+      "location": {
+        "latitude": 17.0,
+        "longitude": 78.0,
+        "source": "simulated"
+      },
+      "defect_type": "visible_crack_like_mark",
+      "detection_score": 0.82,
+      "bounding_box": {
+        "x": 171,
+        "y": 153,
+        "w": 33,
+        "h": 17
+      },
+      "detection_method": "opencv_controlled_detector",
+      "image": "demo_events/RG-20260929-161013.jpg",
+      "status": "pending_human_review"
+    },
+    "images": {
+      "original": "images/RG-20260929-161013.jpg",
+      "annotated": "images/RG-20260929-161013_annotated.jpg"
+    },
+    "location_note": "Simulated location",
+    "memory_used": true,
+    "recalled_memories": [
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status.",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.91 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.91. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-000 at segment SIM-TRACK-01 has a possible crack-like mark with a detector score of 0.74 and an inconclusive review status as of 2026-09-29."
+    ],
+    "assessment": "recurring_or_unverified",
+    "explanation": "Similar findings exist in memory for SIM-TRACK-01. Current detector score is 0.82. Scores alone do not show growth or severity. Compare original images and request human verification.",
+    "suggested_action": "Compare images and request human verification",
+    "review_status": "pending_human_review",
+    "generated_at": "2026-09-29T17:16:11"
+  },
+  {
+    "event": {
+      "event_id": "RG-20260929-161010",
+      "trip_id": "TRIP-001",
+      "timestamp": "2026-09-29T16:10:10",
+      "segment_id": "SIM-TRACK-01",
+      "location": {
+        "latitude": 17.0,
+        "longitude": 78.0,
+        "source": "simulated"
+      },
+      "defect_type": "visible_crack_like_mark",
+      "detection_score": 0.76,
+      "bounding_box": {
+        "x": 182,
+        "y": 174,
+        "w": 39,
+        "h": 19
+      },
+      "detection_method": "opencv_controlled_detector",
+      "image": "demo_events/RG-20260929-161010.jpg",
+      "status": "pending_human_review"
+    },
+    "images": {
+      "original": "images/RG-20260929-161010.jpg",
+      "annotated": "images/RG-20260929-161010_annotated.jpg"
+    },
+    "location_note": "Simulated location",
+    "memory_used": true,
+    "recalled_memories": [
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status.",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.91 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.91. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-000 at segment SIM-TRACK-01 has a possible crack-like mark with a detector score of 0.74 and an inconclusive review status as of 2026-09-29."
+    ],
+    "assessment": "recurring_or_unverified",
+    "explanation": "Similar findings exist in memory for SIM-TRACK-01. Current detector score is 0.76. Scores alone do not show growth or severity. Compare original images and request human verification.",
+    "suggested_action": "Compare images and request human verification",
+    "review_status": "pending_human_review",
+    "generated_at": "2026-09-29T17:16:08"
+  },
+  {
+    "event": {
+      "event_id": "RG-20260929-161002",
+      "trip_id": "TRIP-001",
+      "timestamp": "2026-09-29T16:10:02",
+      "segment_id": "SIM-TRACK-01",
+      "location": {
+        "latitude": 17.0,
+        "longitude": 78.0,
+        "source": "simulated"
+      },
+      "defect_type": "visible_crack_like_mark",
+      "detection_score": 0.69,
+      "bounding_box": {
+        "x": 579,
+        "y": 202,
+        "w": 49,
+        "h": 34
+      },
+      "detection_method": "opencv_controlled_detector",
+      "image": "demo_events/RG-20260929-161002.jpg",
+      "status": "pending_human_review"
+    },
+    "images": {
+      "original": "images/RG-20260929-161002.jpg",
+      "annotated": "images/RG-20260929-161002_annotated.jpg"
+    },
+    "location_note": "Simulated location",
+    "memory_used": true,
+    "recalled_memories": [
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status.",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.91. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.91 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-001 at segment SIM-TRACK-01 has a visible crack-like mark with a detector score of 0.7 and a pending review status. | When: 2026-09-29",
+      "TRIP-000 at segment SIM-TRACK-01 has a possible crack-like mark with a detector score of 0.74 and an inconclusive review status as of 2026-09-29."
+    ],
+    "assessment": "recurring_or_unverified",
+    "explanation": "Similar findings exist in memory for SIM-TRACK-01. Current detector score is 0.69. Scores alone do not show growth or severity. Compare original images and request human verification.",
+    "suggested_action": "Compare images and request human verification",
+    "review_status": "pending_human_review",
+    "generated_at": "2026-09-29T17:16:07"
+  }
+]
