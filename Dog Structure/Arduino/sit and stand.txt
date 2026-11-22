@@ -1,0 +1,499 @@
+/*
+  ROBOTIC DOG — Smart Sequential Sit/Stand
+
+  STAND sequence:
+    1. Front legs up (shoulder + knee)
+    2. Wait 2s
+    3. Back KNEES extend down first
+    4. Wait 1s
+    5. Back SHOULDERS rise up
+
+  SIT sequence:
+    1. Back SHOULDERS go down first
+    2. Wait 1s
+    3. Back KNEES fold up
+    4. Wait 2s
+    5. Front legs go down
+
+  WIRING:
+    Joystick SW → D7
+    GND         → GND
+
+  CHANNEL MAP:
+  CH0=FL Shoulder  CH1=FL Knee
+  CH2=FR Shoulder  CH3=FR Knee
+  CH4=BL Shoulder  CH5=BL Knee
+  CH6=BR Shoulder  CH7=BR Knee
+*/
+
+#include <Wire.h>
+#include <Adafruit_PWMServoDriver.h>
+
+Adafruit_PWMServoDriver pca = Adafruit_PWMServoDriver(0x40);
+
+#define SERVOMIN 102
+#define SERVOMAX 553
+#define JOY_SW   7
+
+// ── YOUR CALIBRATED ANGLES — DO NOT CHANGE ────────────
+//                  CH0   CH1   CH2   CH3   CH4   CH5   CH6   CH7
+//                  FL    FL    FR    FR    BL    BL    BR    BR
+//                  SHO   KNE   SHO   KNE   SHO   KNE   SHO   KNE
+const int SIT[8]   = { 180,    0,    0,  150,  150,    0,    0,  150 };
+const int STAND[8] = { 100,  100,   50,   50,  100,  100,   50,   50 };
+// ──────────────────────────────────────────────────────
+
+const int STEP_DEG            = 1;
+const unsigned long STEP_MS   = 10;
+const unsigned long PAUSE_2S  = 500;
+const unsigned long PAUSE_1S  = 500;
+
+enum State {
+  IDLE,
+  // STAND sequence
+  ST1_FRONT_UP,        // front legs rising
+  ST2_PAUSE,           // 2s pause
+  ST3_BACK_KNEES_DOWN, // back knees extend first
+  ST4_PAUSE_KNEES,     // 1s pause
+  ST5_BACK_SHO_UP,     // back shoulders rise
+  // SIT sequence
+  SI1_BACK_SHO_DOWN,   // back shoulders drop first
+  SI2_PAUSE_SHO,       // 1s pause
+  SI3_BACK_KNEES_UP,   // back knees fold up
+  SI4_PAUSE,           // 2s pause
+  SI5_FRONT_DOWN       // front legs go down
+};
+
+State state     = IDLE;
+bool isStanding = false;
+int curPos[8];
+int target[8];
+unsigned long lastStep   = 0;
+unsigned long pauseStart = 0;
+
+// ── HELPERS ───────────────────────────────────────────
+void setServo(int ch, int deg) {
+  deg = constrain(deg, 0, 180);
+  pca.setPWM(ch, 0, map(deg, 0, 180, SERVOMIN, SERVOMAX));
+}
+
+// Set target for specific channels only
+void setTargetChs(int fromCh, int toCh, const int* pose) {
+  for (int ch = fromCh; ch <= toCh; ch++) target[ch] = pose[ch];
+}
+
+// Hold specific channels (don't move them)
+void holdChs(int fromCh, int toCh) {
+  for (int ch = fromCh; ch <= toCh; ch++) target[ch] = curPos[ch];
+}
+
+// Check if specific channels reached target
+bool chsDone(int fromCh, int toCh) {
+  for (int ch = fromCh; ch <= toCh; ch++)
+    if (curPos[ch] != target[ch]) return false;
+  return true;
+}
+
+bool buttonPressed() {
+  static bool lastState   = HIGH;
+  static bool stableState = HIGH;
+  static unsigned long lastDebounce = 0;
+  bool reading = digitalRead(JOY_SW);
+  if (reading != lastState) { lastDebounce = millis(); lastState = reading; }
+  if (millis() - lastDebounce > 120) {
+    if (reading != stableState) {
+      stableState = reading;
+      if (stableState == LOW) return true;
+    }
+  }
+  return false;
+}
+
+void startPause() { pauseStart = millis(); }
+bool pauseDone(unsigned long duration) { return millis() - pauseStart >= duration; }
+// ──────────────────────────────────────────────────────
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(JOY_SW, INPUT_PULLUP);
+
+  pca.begin();
+  pca.setOscillatorFrequency(27000000);
+  pca.setPWMFreq(50);
+  delay(200);
+
+  for (int ch = 0; ch < 8; ch++) {
+    setServo(ch, SIT[ch]);
+    curPos[ch] = SIT[ch];
+    target[ch] = SIT[ch];
+  }
+
+  isStanding = false;
+  state = IDLE;
+  Serial.println("Ready! Press button to STAND.");
+}
+
+void loop() {
+
+  // ── BUTTON ────────────────────────────────────────
+  if (state == IDLE && buttonPressed()) {
+    isStanding = !isStanding;
+
+    if (isStanding) {
+      // STAND — start with front legs
+      Serial.println("STANDING — Step 1: Front legs up...");
+      setTargetChs(0, 3, STAND);  // front shoulder + knee
+      holdChs(4, 7);               // back stays still
+      state = ST1_FRONT_UP;
+
+    } else {
+      // SIT — start with back shoulders dropping
+      Serial.println("SITTING — Step 1: Back shoulders down...");
+      // only back shoulders (CH4, CH6)
+      target[4] = SIT[4];  // BL shoulder
+      target[6] = SIT[6];  // BR shoulder
+      holdChs(0, 3);        // front stays still
+      holdChs(5, 5);        // BL knee stays
+      holdChs(7, 7);        // BR knee stays
+      state = SI1_BACK_SHO_DOWN;
+    }
+  }
+
+  // ── SMOOTH STEP ───────────────────────────────────
+  unsigned long now = millis();
+  if (now - lastStep < STEP_MS) return;
+  lastStep = now;
+
+  for (int ch = 0; ch < 8; ch++) {
+    if (curPos[ch] < target[ch])      curPos[ch] += STEP_DEG;
+    else if (curPos[ch] > target[ch]) curPos[ch] -= STEP_DEG;
+    if (abs(curPos[ch] - target[ch]) <= STEP_DEG) curPos[ch] = target[ch];
+    setServo(ch, curPos[ch]);
+  }
+
+  // ── STAND STATE MACHINE ───────────────────────────
+
+  // ST1: front legs up → pause
+  if (state == ST1_FRONT_UP && chsDone(0, 3)) {
+    Serial.println("Front up! Pausing 2s...");
+    startPause();
+    state = ST2_PAUSE;
+  }
+
+  // ST2: pause → back knees extend down
+  if (state == ST2_PAUSE && pauseDone(PAUSE_2S)) {
+    Serial.println("Step 3: Back knees extending down...");
+    target[5] = STAND[5];  // BL knee
+    target[7] = STAND[7];  // BR knee
+    holdChs(4, 4);          // BL shoulder stays
+    holdChs(6, 6);          // BR shoulder stays
+    state = ST3_BACK_KNEES_DOWN;
+  }
+
+  // ST3: back knees done → pause
+  if (state == ST3_BACK_KNEES_DOWN && chsDone(5, 5) && chsDone(7, 7)) {
+    Serial.println("Back knees down! Pausing 1s...");
+    startPause();
+    state = ST4_PAUSE_KNEES;
+  }
+
+  // ST4: pause → back shoulders rise
+  if (state == ST4_PAUSE_KNEES && pauseDone(PAUSE_1S)) {
+    Serial.println("Step 5: Back shoulders rising...");
+    target[4] = STAND[4];  // BL shoulder
+    target[6] = STAND[6];  // BR shoulder
+    state = ST5_BACK_SHO_UP;
+  }
+
+  // ST5: all done standing
+  if (state == ST5_BACK_SHO_UP && chsDone(4, 4) && chsDone(6, 6)) {
+    Serial.println("Dog is STANDING!");
+    state = IDLE;
+  }
+
+  // ── SIT STATE MACHINE ─────────────────────────────
+
+  // SI1: back shoulders down → pause
+  if (state == SI1_BACK_SHO_DOWN && chsDone(4, 4) && chsDone(6, 6)) {
+    Serial.println("Back shoulders down! Pausing 1s...");
+    startPause();
+    state = SI2_PAUSE_SHO;
+  }
+
+  // SI2: pause → back knees fold up
+  if (state == SI2_PAUSE_SHO && pauseDone(PAUSE_1S)) {
+    Serial.println("Step 3: Back knees folding up...");
+    target[5] = SIT[5];  // BL knee
+    target[7] = SIT[7];  // BR knee
+    state = SI3_BACK_KNEES_UP;
+  }
+
+  // SI3: back knees folded → pause
+  if (state == SI3_BACK_KNEES_UP && chsDone(5, 5) && chsDone(7, 7)) {
+    Serial.println("Back knees up! Pausing 2s...");
+    startPause();
+    state = SI4_PAUSE;
+  }
+
+  // SI4: pause → front legs down
+  if (state == SI4_PAUSE && pauseDone(PAUSE_2S)) {
+    Serial.println("Step 5: Front legs going down...");
+    setTargetChs(0, 3, SIT);
+    state = SI5_FRONT_DOWN;
+  }
+
+  // SI5: all done sitting
+  if (state == SI5_FRONT_DOWN && chsDone(0, 3)) {
+    Serial.println("Dog is SITTING!");
+    state = IDLE;
+  }
+}/*
+  ROBOTIC DOG — Smart Sequential Sit/Stand
+
+  STAND sequence:
+    1. Front legs up (shoulder + knee)
+    2. Wait 2s
+    3. Back KNEES extend down first
+    4. Wait 1s
+    5. Back SHOULDERS rise up
+
+  SIT sequence:
+    1. Back SHOULDERS go down first
+    2. Wait 1s
+    3. Back KNEES fold up
+    4. Wait 2s
+    5. Front legs go down
+
+  WIRING:
+    Joystick SW → D7
+    GND         → GND
+
+  CHANNEL MAP:
+  CH0=FL Shoulder  CH1=FL Knee
+  CH2=FR Shoulder  CH3=FR Knee
+  CH4=BL Shoulder  CH5=BL Knee
+  CH6=BR Shoulder  CH7=BR Knee
+*/
+
+#include <Wire.h>
+#include <Adafruit_PWMServoDriver.h>
+
+Adafruit_PWMServoDriver pca = Adafruit_PWMServoDriver(0x40);
+
+#define SERVOMIN 102
+#define SERVOMAX 553
+#define JOY_SW   7
+
+// ── YOUR CALIBRATED ANGLES — DO NOT CHANGE ────────────
+//                  CH0   CH1   CH2   CH3   CH4   CH5   CH6   CH7
+//                  FL    FL    FR    FR    BL    BL    BR    BR
+//                  SHO   KNE   SHO   KNE   SHO   KNE   SHO   KNE
+const int SIT[8]   = { 180,    0,    0,  150,  150,    0,    0,  150 };
+const int STAND[8] = { 100,  100,   50,   50,  100,  100,   50,   50 };
+// ──────────────────────────────────────────────────────
+
+const int STEP_DEG            = 1;
+const unsigned long STEP_MS   = 10;
+const unsigned long PAUSE_2S  = 500;
+const unsigned long PAUSE_1S  = 500;
+
+enum State {
+  IDLE,
+  // STAND sequence
+  ST1_FRONT_UP,        // front legs rising
+  ST2_PAUSE,           // 2s pause
+  ST3_BACK_KNEES_DOWN, // back knees extend first
+  ST4_PAUSE_KNEES,     // 1s pause
+  ST5_BACK_SHO_UP,     // back shoulders rise
+  // SIT sequence
+  SI1_BACK_SHO_DOWN,   // back shoulders drop first
+  SI2_PAUSE_SHO,       // 1s pause
+  SI3_BACK_KNEES_UP,   // back knees fold up
+  SI4_PAUSE,           // 2s pause
+  SI5_FRONT_DOWN       // front legs go down
+};
+
+State state     = IDLE;
+bool isStanding = false;
+int curPos[8];
+int target[8];
+unsigned long lastStep   = 0;
+unsigned long pauseStart = 0;
+
+// ── HELPERS ───────────────────────────────────────────
+void setServo(int ch, int deg) {
+  deg = constrain(deg, 0, 180);
+  pca.setPWM(ch, 0, map(deg, 0, 180, SERVOMIN, SERVOMAX));
+}
+
+// Set target for specific channels only
+void setTargetChs(int fromCh, int toCh, const int* pose) {
+  for (int ch = fromCh; ch <= toCh; ch++) target[ch] = pose[ch];
+}
+
+// Hold specific channels (don't move them)
+void holdChs(int fromCh, int toCh) {
+  for (int ch = fromCh; ch <= toCh; ch++) target[ch] = curPos[ch];
+}
+
+// Check if specific channels reached target
+bool chsDone(int fromCh, int toCh) {
+  for (int ch = fromCh; ch <= toCh; ch++)
+    if (curPos[ch] != target[ch]) return false;
+  return true;
+}
+
+bool buttonPressed() {
+  static bool lastState   = HIGH;
+  static bool stableState = HIGH;
+  static unsigned long lastDebounce = 0;
+  bool reading = digitalRead(JOY_SW);
+  if (reading != lastState) { lastDebounce = millis(); lastState = reading; }
+  if (millis() - lastDebounce > 120) {
+    if (reading != stableState) {
+      stableState = reading;
+      if (stableState == LOW) return true;
+    }
+  }
+  return false;
+}
+
+void startPause() { pauseStart = millis(); }
+bool pauseDone(unsigned long duration) { return millis() - pauseStart >= duration; }
+// ──────────────────────────────────────────────────────
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(JOY_SW, INPUT_PULLUP);
+
+  pca.begin();
+  pca.setOscillatorFrequency(27000000);
+  pca.setPWMFreq(50);
+  delay(200);
+
+  for (int ch = 0; ch < 8; ch++) {
+    setServo(ch, SIT[ch]);
+    curPos[ch] = SIT[ch];
+    target[ch] = SIT[ch];
+  }
+
+  isStanding = false;
+  state = IDLE;
+  Serial.println("Ready! Press button to STAND.");
+}
+
+void loop() {
+
+  // ── BUTTON ────────────────────────────────────────
+  if (state == IDLE && buttonPressed()) {
+    isStanding = !isStanding;
+
+    if (isStanding) {
+      // STAND — start with front legs
+      Serial.println("STANDING — Step 1: Front legs up...");
+      setTargetChs(0, 3, STAND);  // front shoulder + knee
+      holdChs(4, 7);               // back stays still
+      state = ST1_FRONT_UP;
+
+    } else {
+      // SIT — start with back shoulders dropping
+      Serial.println("SITTING — Step 1: Back shoulders down...");
+      // only back shoulders (CH4, CH6)
+      target[4] = SIT[4];  // BL shoulder
+      target[6] = SIT[6];  // BR shoulder
+      holdChs(0, 3);        // front stays still
+      holdChs(5, 5);        // BL knee stays
+      holdChs(7, 7);        // BR knee stays
+      state = SI1_BACK_SHO_DOWN;
+    }
+  }
+
+  // ── SMOOTH STEP ───────────────────────────────────
+  unsigned long now = millis();
+  if (now - lastStep < STEP_MS) return;
+  lastStep = now;
+
+  for (int ch = 0; ch < 8; ch++) {
+    if (curPos[ch] < target[ch])      curPos[ch] += STEP_DEG;
+    else if (curPos[ch] > target[ch]) curPos[ch] -= STEP_DEG;
+    if (abs(curPos[ch] - target[ch]) <= STEP_DEG) curPos[ch] = target[ch];
+    setServo(ch, curPos[ch]);
+  }
+
+  // ── STAND STATE MACHINE ───────────────────────────
+
+  // ST1: front legs up → pause
+  if (state == ST1_FRONT_UP && chsDone(0, 3)) {
+    Serial.println("Front up! Pausing 2s...");
+    startPause();
+    state = ST2_PAUSE;
+  }
+
+  // ST2: pause → back knees extend down
+  if (state == ST2_PAUSE && pauseDone(PAUSE_2S)) {
+    Serial.println("Step 3: Back knees extending down...");
+    target[5] = STAND[5];  // BL knee
+    target[7] = STAND[7];  // BR knee
+    holdChs(4, 4);          // BL shoulder stays
+    holdChs(6, 6);          // BR shoulder stays
+    state = ST3_BACK_KNEES_DOWN;
+  }
+
+  // ST3: back knees done → pause
+  if (state == ST3_BACK_KNEES_DOWN && chsDone(5, 5) && chsDone(7, 7)) {
+    Serial.println("Back knees down! Pausing 1s...");
+    startPause();
+    state = ST4_PAUSE_KNEES;
+  }
+
+  // ST4: pause → back shoulders rise
+  if (state == ST4_PAUSE_KNEES && pauseDone(PAUSE_1S)) {
+    Serial.println("Step 5: Back shoulders rising...");
+    target[4] = STAND[4];  // BL shoulder
+    target[6] = STAND[6];  // BR shoulder
+    state = ST5_BACK_SHO_UP;
+  }
+
+  // ST5: all done standing
+  if (state == ST5_BACK_SHO_UP && chsDone(4, 4) && chsDone(6, 6)) {
+    Serial.println("Dog is STANDING!");
+    state = IDLE;
+  }
+
+  // ── SIT STATE MACHINE ─────────────────────────────
+
+  // SI1: back shoulders down → pause
+  if (state == SI1_BACK_SHO_DOWN && chsDone(4, 4) && chsDone(6, 6)) {
+    Serial.println("Back shoulders down! Pausing 1s...");
+    startPause();
+    state = SI2_PAUSE_SHO;
+  }
+
+  // SI2: pause → back knees fold up
+  if (state == SI2_PAUSE_SHO && pauseDone(PAUSE_1S)) {
+    Serial.println("Step 3: Back knees folding up...");
+    target[5] = SIT[5];  // BL knee
+    target[7] = SIT[7];  // BR knee
+    state = SI3_BACK_KNEES_UP;
+  }
+
+  // SI3: back knees folded → pause
+  if (state == SI3_BACK_KNEES_UP && chsDone(5, 5) && chsDone(7, 7)) {
+    Serial.println("Back knees up! Pausing 2s...");
+    startPause();
+    state = SI4_PAUSE;
+  }
+
+  // SI4: pause → front legs down
+  if (state == SI4_PAUSE && pauseDone(PAUSE_2S)) {
+    Serial.println("Step 5: Front legs going down...");
+    setTargetChs(0, 3, SIT);
+    state = SI5_FRONT_DOWN;
+  }
+
+  // SI5: all done sitting
+  if (state == SI5_FRONT_DOWN && chsDone(0, 3)) {
+    Serial.println("Dog is SITTING!");
+    state = IDLE;
+  }
+}

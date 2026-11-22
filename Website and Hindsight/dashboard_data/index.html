@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RailGuard AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gray-900 text-gray-100 p-8 font-sans">
+    
+    <header class="mb-8 border-b border-gray-700 pb-6">
+        <div class="flex justify-between items-end">
+            <div>
+                <h1 class="text-4xl font-extrabold text-blue-400 mb-2">RailGuard AI</h1>
+                <p class="text-gray-400">Live track monitoring with persistent Hindsight memory</p>
+            </div>
+            <div class="text-right flex flex-col items-end gap-2">
+                <span class="inline-flex items-center gap-2 bg-green-900/30 border border-green-800 text-green-400 text-xs px-3 py-1.5 rounded-full font-bold uppercase tracking-wide">
+                    <span class="w-2 h-2 rounded-full bg-green-500 animate-pulse"></span>
+                    System Online
+                </span>
+                <p class="text-xs text-gray-500">Memory-informed assessment. Not a safety clearance.</p>
+            </div>
+        </div>
+    </header>
+
+    <div class="flex flex-col xl:flex-row gap-8">
+        <!-- Left: Event Grid -->
+        <div id="grid" class="flex-1 grid grid-cols-1 lg:grid-cols-2 gap-6"></div>
+
+        <!-- Right: Telemetry Sidebar -->
+        <div class="xl:w-96 shrink-0 space-y-6">
+            
+            <!-- Mission Stats -->
+            <div class="bg-gray-800 rounded-xl border border-gray-700 p-5 shadow-xl">
+                <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-4 border-b border-gray-700 pb-2">Mission Statistics</h3>
+                <div class="space-y-4">
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-400">Active Trip</span>
+                        <span class="text-sm font-mono text-blue-400">TRIP-001</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-400">Anomalies Detected</span>
+                        <span class="text-sm font-mono text-white">8 Events</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-400">Memory Recalls</span>
+                        <span class="text-sm font-mono text-purple-400">8 Successful</span>
+                    </div>
+                    <div class="flex justify-between items-center">
+                        <span class="text-sm text-gray-400">Pending Review</span>
+                        <span class="text-sm font-mono text-yellow-400">8 Items</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subsystem Status -->
+            <div class="bg-gray-800 rounded-xl border border-gray-700 p-5 shadow-xl">
+                <h3 class="text-gray-400 text-xs font-bold uppercase tracking-wider mb-4 border-b border-gray-700 pb-2">Subsystem Status</h3>
+                <div class="space-y-3">
+                    <div class="flex items-center justify-between bg-gray-900/50 p-2 rounded border border-gray-700">
+                        <span class="text-sm text-gray-300">Edge CV Pipeline</span>
+                        <span class="text-xs font-bold text-green-400 bg-green-900/30 px-2 py-1 rounded">ACTIVE</span>
+                    </div>
+                    <div class="flex items-center justify-between bg-gray-900/50 p-2 rounded border border-gray-700">
+                        <span class="text-sm text-gray-300">Hindsight Memory</span>
+                        <span class="text-xs font-bold text-green-400 bg-green-900/30 px-2 py-1 rounded">CONNECTED</span>
+                    </div>
+                    <div class="flex items-center justify-between bg-gray-900/50 p-2 rounded border border-gray-700">
+                        <span class="text-sm text-gray-300">Robot Controller</span>
+                        <span class="text-xs font-bold text-blue-400 bg-blue-900/30 px-2 py-1 rounded">STANDBY</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        // I have included 3 of your actual records here to fill the grid immediately.
+        const data = [
+            {
+                "event": {
+                "event_id": "RG-20260929-161048",
+                "trip_id": "TRIP-001",
+                "timestamp": "2026-09-29T16:10:48",
+                "segment_id": "SIM-TRACK-01",
+                "location": { "latitude": 17.0, "longitude": 78.0, "source": "simulated" },
+                "defect_type": "visible_crack_like_mark",
+                "detection_score": 0.7,
+                "image": "demo_events/RG-20260929-161048.jpg",
+                "status": "pending_human_review"
+                },
+                "images": {
+                "annotated": "images/RG-20260929-161048_annotated.jpg"
+                },
+                "location_note": "Simulated location",
+                "memory_used": true,
+                "recalled_memories": [
+                "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7.",
+                "TRIP-000 at segment SIM-TRACK-01 has a possible crack-like mark with a detector score of 0.74."
+                ],
+                "explanation": "Similar findings exist in memory for SIM-TRACK-01. Current detector score is 0.7. Scores alone do not show growth or severity. Compare original images and request human verification.",
+                "suggested_action": "Compare images and request human verification",
+                "review_status": "pending_human_review"
+            },
+            {
+                "event": {
+                "event_id": "RG-20260929-161045",
+                "trip_id": "TRIP-001",
+                "timestamp": "2026-09-29T16:10:45",
+                "segment_id": "SIM-TRACK-01",
+                "location": { "latitude": 17.0, "longitude": 78.0, "source": "simulated" },
+                "defect_type": "visible_crack_like_mark",
+                "detection_score": 0.69,
+                "image": "demo_events/RG-20260929-161045.jpg",
+                "status": "pending_human_review"
+                },
+                "images": {
+                "annotated": "images/RG-20260929-161045_annotated.jpg"
+                },
+                "location_note": "Simulated location",
+                "memory_used": true,
+                "recalled_memories": [
+                "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7.",
+                "TRIP-000 at segment SIM-TRACK-01 has a possible crack-like mark with a detector score of 0.74."
+                ],
+                "explanation": "Similar findings exist in memory for SIM-TRACK-01. Current detector score is 0.69. Compare original images and request human verification.",
+                "suggested_action": "Compare images and request human verification",
+                "review_status": "pending_human_review"
+            },
+            {
+                "event": {
+                "event_id": "RG-20260929-161042",
+                "trip_id": "TRIP-001",
+                "timestamp": "2026-09-29T16:10:42",
+                "segment_id": "SIM-TRACK-01",
+                "location": { "latitude": 17.0, "longitude": 78.0, "source": "simulated" },
+                "defect_type": "visible_crack_like_mark",
+                "detection_score": 0.68,
+                "image": "demo_events/RG-20260929-161042.jpg",
+                "status": "pending_human_review"
+                },
+                "images": {
+                "annotated": "images/RG-20260929-161042_annotated.jpg"
+                },
+                "location_note": "Simulated location",
+                "memory_used": true,
+                "recalled_memories": [
+                "TRIP-001 at segment SIM-TRACK-01 shows a visible crack-like mark with a detector score of 0.7.",
+                "TRIP-000 at segment SIM-TRACK-01 has a possible crack-like mark with a detector score of 0.74."
+                ],
+                "explanation": "Similar findings exist in memory for SIM-TRACK-01. Current detector score is 0.68. Compare original images and request human verification.",
+                "suggested_action": "Compare images and request human verification",
+                "review_status": "pending_human_review"
+            }
+        ];
+
+        const grid = document.getElementById('grid');
+        
+        data.forEach(record => {
+            let memoriesHtml = '';
+            if (record.memory_used && record.recalled_memories.length > 0) {
+                const lis = record.recalled_memories.slice(0, 2).map(mem => `
+                    <li class="flex items-start gap-2">
+                        <span class="text-blue-500 mt-0.5">•</span>
+                        <span class="line-clamp-2">${mem}</span>
+                    </li>
+                `).join('');
+                
+                memoriesHtml = `
+                    <div class="border-t border-blue-800/50 pt-3">
+                        <p class="text-xs text-blue-500 font-bold mb-2 uppercase tracking-wider">Recalled Context:</p>
+                        <ul class="text-xs text-gray-400 space-y-2">${lis}</ul>
+                    </div>
+                `;
+            }
+
+            const score = (record.event.detection_score * 100).toFixed(0);
+            const defectType = record.event.defect_type.replace(/_/g, ' ');
+            const status = record.review_status.replace(/_/g, ' ');
+            const time = new Date(record.event.timestamp).toLocaleTimeString();
+
+            const card = document.createElement('div');
+            card.className = "bg-gray-800 rounded-xl border border-gray-700 shadow-2xl overflow-hidden flex flex-col";
+            card.innerHTML = `
+                <div class="relative h-64 bg-black border-b border-gray-700">
+                    <img src="${record.images.annotated}" alt="Defect" class="w-full h-full object-contain" />
+                    <div class="absolute top-3 right-3 bg-red-600/90 text-white text-xs px-3 py-1.5 rounded shadow border border-red-500 font-mono font-bold">
+                        CONFIDENCE: ${score}%
+                    </div>
+                </div>
+                <div class="p-5 flex-grow flex flex-col">
+                    <div class="flex justify-between items-start mb-4">
+                        <div>
+                            <h2 class="text-xl font-bold text-gray-100">${record.event.event_id}</h2>
+                            <p class="text-sm text-gray-400 mt-1 uppercase tracking-wider">${defectType}</p>
+                        </div>
+                        <span class="text-xs bg-yellow-900/50 text-yellow-400 px-3 py-1 rounded border border-yellow-700/50 font-medium">
+                            ${status}
+                        </span>
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3 text-sm text-gray-400 mb-6 bg-gray-900/50 p-3 rounded border border-gray-700/50">
+                        <div><span class="text-gray-500">Trip:</span> ${record.event.trip_id}</div>
+                        <div><span class="text-gray-500">Segment:</span> ${record.event.segment_id}</div>
+                        <div><span class="text-gray-500">Time:</span> ${time}</div>
+                        <div><span class="text-gray-500 text-xs italic">${record.location_note}</span></div>
+                    </div>
+
+                    <div class="mt-auto bg-blue-900/20 border border-blue-800/50 rounded-lg p-4">
+                        <h3 class="text-sm font-bold text-blue-400 flex items-center gap-2 mb-2 uppercase tracking-wide">
+                            🧠 AI Memory Assessment
+                        </h3>
+                        <p class="text-sm text-blue-100/90 mb-4 leading-relaxed">${record.explanation}</p>
+                        ${memoriesHtml}
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    </script>
+</body>
+</html>
